@@ -1,8 +1,10 @@
-FROM golang:1.23-alpine
+FROM pullcache.maltech.io/library/golang:1.21.2-alpine
 WORKDIR /app
 
 COPY go.mod ./
-#COPY go.sum ./
+
+COPY go.sum ./
+
 RUN go mod download
 
 COPY *.go ./
