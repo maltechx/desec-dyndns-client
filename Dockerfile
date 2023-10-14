@@ -1,4 +1,4 @@
-FROM pullcache.maltech.io/library/golang:1.21.2-alpine
+FROM library/golang:1.21.2-alpine
 WORKDIR /app
 
 COPY go.mod ./
