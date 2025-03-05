@@ -1,4 +1,4 @@
-FROM library/golang:1.24.0-alpine
+FROM library/golang:1.24.1-alpine
 WORKDIR /app
 
 COPY go.mod ./
