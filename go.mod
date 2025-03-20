@@ -2,7 +2,7 @@ module git.maltech.io/maltech/desec-dyndns-client
 
 go 1.22.0
 
-toolchain go1.23.7
+toolchain go1.24.1
 
 require github.com/miekg/dns v1.1.64
 
