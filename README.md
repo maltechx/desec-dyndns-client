@@ -2,7 +2,7 @@
 
 This is a basic DynDNS Client for [deSEC.io](https://desec.io/) with Dual Stack support. This is very rudimentary, offers no special functions and may break in the future!
 
-**Note:** This project is beeing developed at [gitlab.com/maltechx/desec-dyndns-client](https://gitlab.com/maltechx/desec-dyndns-client)
+**Note:** This project is beeing developed at [codeberg.org/maltech/desec-dyndns-client](https://codeberg.org/maltech/desec-dyndns-client)
 
 ## Getting Started
 
@@ -15,5 +15,5 @@ podman run \
     --network=host 
     -e DYNDNS_DOMAIN=host.example.com 
     -e DYNDNS_TOKEN=YOUR_TOKEN 
-    registry.gitlab.com/maltechx/desec-dyndns-client:v1.0.1
+    codeberg.org/maltech/desec-dyndns-client:v1.0.1
 ```

@@ -1,0 +1,31 @@
+name: Build Container
+
+on: push
+
+jobs:
+  build-container:
+    runs-on: docker
+    steps:
+      - name: Checkout source
+        uses: https://data.forgejo.org/actions/checkout@v2
+
+      - name: Build and push container image
+        uses: docker://quay.io/buildah/stable
+        with:
+          args: |
+            /bin/bash -c "
+              dnf install -y qemu-user-static
+              echo ${{ secrets.FORGEJO_TOKEN }} | buildah login -u ${{ secrets.FORGEJO_USERNAME }} --password-stdin codeberg.org
+              buildah build \
+              --layers \
+              --cache-from codeberg.org/maltech/desec-dyndns-client/cache \
+              --cache-to codeberg.org/maltech/desec-dyndns-client/cache \
+              --jobs 2 \
+              --platform=linux/amd64,linux/arm64 \
+              --manifest codeberg.org/maltech/desec-dyndns-client:$FORGEJO_REF_NAME \
+              .
+              buildah manifest push --all codeberg.org/maltech/desec-dyndns-client:$FORGEJO_REF_NAME
+              [[ "$FORGEJO_REF" == refs/tags/* ]] \
+               && buildah manifest push --all codeberg.org/maltech/desec-dyndns-client:latest \
+               && buildah tag codeberg.org/maltech/desec-dyndns-client:$FORGEJO_REF_NAME codeberg.org/maltech/desec-dyndns-client:latest 
+            "
