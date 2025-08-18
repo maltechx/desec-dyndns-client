@@ -18,8 +18,6 @@ jobs:
               echo ${{ secrets.FORGEJO_TOKEN }} | buildah login -u ${{ secrets.FORGEJO_USERNAME }} --password-stdin codeberg.org
               buildah build \
               --layers \
-              --cache-from codeberg.org/maltech/desec-dyndns-client/cache \
-              --cache-to codeberg.org/maltech/desec-dyndns-client/cache \
               --jobs 2 \
               --platform=linux/amd64,linux/arm64 \
               --manifest codeberg.org/maltech/desec-dyndns-client:$FORGEJO_REF_NAME \
