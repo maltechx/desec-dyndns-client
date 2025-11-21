@@ -14,7 +14,7 @@ jobs:
     timeout-minutes: 5
     steps:
       - name: Check out code
-        uses: https://data.forgejo.org/actions/checkout@v2
+        uses: https://data.forgejo.org/actions/checkout@v6
 
       - name: Install Go
         uses: actions/setup-go@v6
