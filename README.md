@@ -12,8 +12,11 @@ The following Podman command shows, how to run this in a container:
 
 ```sh
 podman run \
-    --network=host 
-    -e DYNDNS_DOMAIN=host.example.com 
-    -e DYNDNS_TOKEN=YOUR_TOKEN 
+    --network=host
+    -e DYNDNS_HOSTNAME=host.example.com
+    -e DYNDNS_TOKEN=YOUR_TOKEN
+    -e DYNDNS_TTL=300               # Optional
+    -e DYNDNS_INTERVAL=5m           # Optional
+    -e DYNDNS_METRICS_ADDR=:9333    # Optional
     codeberg.org/maltech/desec-dyndns-client:v1.0.1
 ```

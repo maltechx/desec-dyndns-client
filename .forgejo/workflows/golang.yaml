@@ -23,7 +23,7 @@ jobs:
           check-latest: true
 
       - name: Go Format
-        run: gofmt -s -w . && git diff --exit-code
+        run: go fmt $(go list ./... | grep -v /vendor/) && git diff --exit-code
 
       - name: Go Tidy
         run: go mod tidy && git diff --exit-code
@@ -38,10 +38,10 @@ jobs:
         run: go generate ./... && git diff --exit-code
 
       - name: Go Build
-        run: go build -o=/dev/null ./...
+        run: go build -o=/dev/null ./cmd/desecdyndns
 
       - name: Go Vet
-        run: go vet ./...
+        run: go vet $(go list ./... | grep -v /vendor/)
 
       - name: Go Compile Tests
         run: go test -exec=/bin/true ./...
@@ -51,12 +51,3 @@ jobs:
 
       - name: Go Benchmark
         run: go test -v -shuffle=on -run=^$ -bench=. -benchtime=1x ./...
-
-      #- name: Upload Coverage
-      #  if: ${{ !inputs.skipTests }}
-      #  uses: codecov/codecov-action@v4
-      #  continue-on-error: true
-      #  with:
-      #    token: ${{secrets.CODECOV_TOKEN}}
-      #    file: ./coverage.txt
-      #    fail_ci_if_error: false

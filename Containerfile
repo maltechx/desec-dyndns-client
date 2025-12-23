@@ -6,7 +6,7 @@ COPY ./ ./
 
 RUN go mod download
 
-RUN go build -o desec-dyndns-client
+RUN go build ./cmd/desecdyndns
 
 FROM scratch
 
@@ -14,6 +14,6 @@ WORKDIR /app
 
 COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/ca-certificates.crt
 
-COPY --from=builder /build/desec-dyndns-client ./desec-dyndns-client
+COPY --from=builder /build/desecdyndns /desecdyndns
 
-CMD [ "/desec-dyndns-client" ]
+CMD [ "/desecdyndns" ]
