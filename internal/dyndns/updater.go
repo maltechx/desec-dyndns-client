@@ -117,7 +117,7 @@ func (a *App) update(recordType string) {
 	// Update if no rrset or ip not in rrset
 	if len(rrset) == 0 || ip != rrset[0] {
 		if err := updateRRset(a.cfg, recordType, ip); err != nil {
-			metrics.Failure.WithLabelValues(recordType).Inc()
+			metrics.Failure.WithLabelValues(recordType, a.cfg.Hostname).Inc()
 			log.Printf("WARN: failed to update %s: %v", recordType, err)
 		}
 		metrics.Success.WithLabelValues(recordType, a.cfg.Hostname)
