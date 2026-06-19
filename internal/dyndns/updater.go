@@ -53,11 +53,13 @@ func getRRset(cfg *config.Config, recordType string) ([]string, error) {
 func updateRRset(cfg *config.Config, recordType, ip string) error {
 	url := fmt.Sprintf("https://desec.io/api/v1/domains/%s/rrsets/", cfg.Domain)
 
-	payload := map[string]interface{}{
-		"subname": cfg.Subname,
-		"type":    recordType,
-		"ttl":     cfg.TTL,
-		"records": []string{ip},
+	payload := []map[string]interface{}{
+		{
+			"subname": cfg.Subname,
+			"type":    recordType,
+			"ttl":     cfg.TTL,
+			"records": []string{ip},
+		},
 	}
 
 	data, err := json.Marshal(payload)
@@ -65,7 +67,7 @@ func updateRRset(cfg *config.Config, recordType, ip string) error {
 		return err
 	}
 
-	req, err := http.NewRequest("POST", url, bytes.NewReader(data))
+	req, err := http.NewRequest("PUT", url, bytes.NewReader(data))
 	if err != nil {
 		return err
 	}
@@ -117,7 +119,7 @@ func (a *App) update(recordType string) {
 	// Update if no rrset or ip not in rrset
 	if len(rrset) == 0 || ip != rrset[0] {
 		if err := updateRRset(a.cfg, recordType, ip); err != nil {
-			metrics.Failure.WithLabelValues(recordType).Inc()
+			metrics.Failure.WithLabelValues(recordType, a.cfg.Hostname).Inc()
 			log.Printf("WARN: failed to update %s: %v", recordType, err)
 		}
 		metrics.Success.WithLabelValues(recordType, a.cfg.Hostname)
