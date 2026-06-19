@@ -53,11 +53,13 @@ func getRRset(cfg *config.Config, recordType string) ([]string, error) {
 func updateRRset(cfg *config.Config, recordType, ip string) error {
 	url := fmt.Sprintf("https://desec.io/api/v1/domains/%s/rrsets/", cfg.Domain)
 
-	payload := map[string]interface{}{
-		"subname": cfg.Subname,
-		"type":    recordType,
-		"ttl":     cfg.TTL,
-		"records": []string{ip},
+	payload := []map[string]interface{}{
+		{
+			"subname": cfg.Subname,
+			"type":    recordType,
+			"ttl":     cfg.TTL,
+			"records": []string{ip},
+		},
 	}
 
 	data, err := json.Marshal(payload)
@@ -65,7 +67,7 @@ func updateRRset(cfg *config.Config, recordType, ip string) error {
 		return err
 	}
 
-	req, err := http.NewRequest("POST", url, bytes.NewReader(data))
+	req, err := http.NewRequest("PUT", url, bytes.NewReader(data))
 	if err != nil {
 		return err
 	}
