@@ -7,7 +7,7 @@ jobs:
     runs-on: docker
     steps:
       - name: Checkout
-        uses: https://data.forgejo.org/actions/checkout@v6
+        uses: https://data.forgejo.org/actions/checkout@v7
 
       - name: Build and push container image
         uses: https://codeberg.org/maltech/buildah-action@v1.0.0
